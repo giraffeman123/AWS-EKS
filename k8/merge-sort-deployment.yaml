@@ -1,0 +1,27 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: merge-sort
+  namespace: default
+  labels:
+    name: merge-sort-apps
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: merge-sort
+  template:
+    metadata:
+      labels:
+        app: merge-sort
+    spec:
+      containers:
+        - name: merge-sort-app
+          image: elliotmtz12/merge-sort
+          imagePullPolicy: Always
+          env:
+            - name: TZ
+              value: America/Tijuana
+          ports:
+            - containerPort: 3000

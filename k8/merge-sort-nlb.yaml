@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: merge-sort
+  namespace: default
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "external"
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "instance"
+    service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
+    service.beta.kubernetes.io/aws-load-balancer-target-group-attributes: preserve_client_ip.enabled=true
+spec:
+  selector:
+    app: merge-sort
+  type: LoadBalancer
+  loadBalancerSourceRanges:
+  - "XXX.XXX.X.XXX/XX" # <--- Add here the CIDR ranges that need to access the NLB.
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
